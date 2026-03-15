@@ -1,0 +1,22 @@
+# Maven
+target/
+*.class
+*.war
+*.jar
+
+# Eclipse
+.classpath
+.project
+.settings/
+.metadata/
+
+# WildFly
+deployments/
+logs/
+
+# Mac
+.DS_Store
+
+# IDE
+*.iml
+.idea/

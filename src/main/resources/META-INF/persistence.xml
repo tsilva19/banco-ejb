@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence
+             https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
+             version="3.0">
+
+    <!--
+        Persistence Unit = unidade de configuração JPA.
+
+        transaction-type="JTA" → o WildFly gerencia as transações.
+        Você não precisa fazer begin/commit manual.
+        É equivalente ao @EnableTransactionManagement do Spring.
+    -->
+    <persistence-unit name="bancoPU" transaction-type="JTA">
+
+        <!--
+            DataSource JNDI → nome registrado no WildFly.
+            Lembra que criamos o "BancoDS" via CLI?
+            É exatamente esse nome aqui.
+        -->
+        <jta-data-source>java:/BancoDS</jta-data-source>
+
+        <!-- Entidades que o JPA vai gerenciar (viram tabelas) -->
+        <class>br.com.banco.entity.Conta</class>
+        <class>br.com.banco.entity.Boleto</class>
+
+        <properties>
+            <!--
+                drop-and-create → apaga e recria as tabelas a cada deploy.
+                Ótimo para estudo. Em produção use "none" ou "validate".
+            -->
+            <property name="jakarta.persistence.schema-generation.database.action"
+                      value="none"/>
+
+            <!-- Mostra as SQLs geradas no log do WildFly -->
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+
+            <!-- Dialeto PostgreSQL para o Hibernate gerar SQL correto -->
+            <property name="hibernate.dialect"
+                      value="org.hibernate.dialect.PostgreSQLDialect"/>
+        </properties>
+
+    </persistence-unit>
+
+</persistence>
